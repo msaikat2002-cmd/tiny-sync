@@ -1,0 +1,56 @@
+```
+# Android build artifacts
+*.apk
+*.aar
+*.jar
+*.dex
+*.so
+*.dylib
+*.dll
+
+# Android directories
+android/build/
+android/app/build/
+.gradle/
+local.properties
+
+# Windows build artifacts
+*.exe
+*.dll
+*.pdb
+*.ilk
+*.exp
+*.lib
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# Windows directories
+windows/bin/
+windows/obj/
+windows/packages/
+
+# Dependencies
+node_modules/
+vendor/
+
+# Logs
+*.log
+
+# Environment
+.env
+.env.local
+*.env.*
+
+# Editor/IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+*.tmp
+
+# OS generated files
+.DS_Store
+Thumbs.db
+```
