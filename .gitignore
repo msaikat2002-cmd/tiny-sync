@@ -1,21 +1,14 @@
 ```
-# Build artifacts
+# Executables
 *.exe
-*.dll
-*.pdb
-*.userprefs
-bin/
-obj/
 
-# Dependencies
-packages/
-node_modules/
-.nuget/
+# Windows binaries
+windows/bin/
 
 # Logs and temp files
 *.log
 *.tmp
-*.temp
+*.swp
 
 # Environment
 .env
@@ -25,10 +18,49 @@ node_modules/
 # Editors
 .vscode/
 .idea/
-*.swp
-*.swo
+
+# Dependencies
+node_modules/
+.venv/
+venv/
+__pycache__/
+.mypy_cache/
+.pytest_cache/
+dist/
+build/
+target/
+.gradle/
 
 # OS specific
 .DS_Store
 Thumbs.db
+
+# Coverage
+coverage/
+htmlcov/
+.coverage
+
+# Compressed files
+*.zip
+*.gz
+*.tar
+*.tgz
+*.bz2
+*.xz
+*.7z
+*.rar
+*.zst
+*.lz4
+*.lzh
+*.cab
+*.arj
+*.rpm
+*.deb
+*.Z
+*.lz
+*.lzo
+*.tar.gz
+*.tar.bz2
+*.tar.xz
+*.tar.zst
 ```
