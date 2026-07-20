@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Clipboard Sync</string>
+    <string name="notification_channel_name">Clipboard Sync</string>
+    <string name="notification_title">Clipboard Sync</string>
+    <string name="notification_connected">Connected</string>
+    <string name="send_clipboard">Send Clipboard</string>
+</resources>
