@@ -6,6 +6,7 @@ import android.app.NotificationManager
 import android.app.PendingIntent
 import android.app.Service
 import android.content.ClipboardManager
+import android.content.ClipData
 import android.content.Context
 import android.content.Intent
 import android.os.Build
@@ -38,6 +39,8 @@ class ClipboardSyncService : Service() {
     private var lastClipboardText = ""
     private var reconnectHandler = Handler(Looper.getMainLooper())
     private var reconnectRunnable: Runnable? = null
+    private var isSettingClipboardFromNetwork = false
+    private var clipboardListener: ClipboardManager.OnPrimaryClipChangedListener? = null
 
     override fun onCreate() {
         super.onCreate()
@@ -45,11 +48,14 @@ class ClipboardSyncService : Service() {
         startForeground(NOTIFICATION_ID, createNotification(false))
         clipboardManager = getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
         connectToServer()
-        startClipboardMonitoring()
+        setupClipboardListener()
         scheduleReconnect()
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
+        if (intent?.action == "SEND_CLIPBOARD") {
+            sendCurrentClipboard()
+        }
         return START_STICKY
     }
 
@@ -57,6 +63,7 @@ class ClipboardSyncService : Service() {
 
     override fun onDestroy() {
         super.onDestroy()
+        removeClipboardListener()
         disconnectFromServer()
         reconnectHandler.removeCallbacksAndMessages(null)
     }
@@ -177,9 +184,14 @@ class ClipboardSyncService : Service() {
 
     private fun setClipboard(text: String) {
         try {
-            val clip = android.content.ClipData.newPlainText("", text)
+            isSettingClipboardFromNetwork = true
+            val clip = ClipData.newPlainText("", text)
             clipboardManager?.setPrimaryClip(clip)
-        } catch (e: Exception) { }
+            lastClipboardText = text
+            isSettingClipboardFromNetwork = false
+        } catch (e: Exception) {
+            isSettingClipboardFromNetwork = false
+        }
     }
 
     private fun getClipboardText(): String {
@@ -215,6 +227,13 @@ class ClipboardSyncService : Service() {
         }
     }
 
+    private fun sendCurrentClipboard() {
+        val text = getClipboardText()
+        if (text.isNotEmpty()) {
+            sendClipboard(text)
+        }
+    }
+
     private fun disconnectFromServer() {
         try {
             isConnected = false
@@ -227,17 +246,24 @@ class ClipboardSyncService : Service() {
         } catch (e: Exception) { }
     }
 
-    private fun startClipboardMonitoring() {
-        handler.postDelayed(object : Runnable {
-            override fun run() {
+    private fun setupClipboardListener() {
+        clipboardListener = ClipboardManager.OnPrimaryClipChangedListener {
+            if (!isSettingClipboardFromNetwork) {
                 val currentText = getClipboardText()
                 if (currentText.isNotEmpty() && currentText != lastClipboardText) {
                     lastClipboardText = currentText
                     sendClipboard(currentText)
                 }
-                handler.postDelayed(this, 1000)
             }
-        }, 1000)
+        }
+        clipboardManager?.addPrimaryClipChangedListener(clipboardListener)
+    }
+
+    private fun removeClipboardListener() {
+        clipboardListener?.let {
+            clipboardManager?.removePrimaryClipChangedListener(it)
+        }
+        clipboardListener = null
     }
 
     private fun scheduleReconnect() {

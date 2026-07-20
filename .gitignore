@@ -1,39 +1,21 @@
 ```
-# Android build artifacts
+# Build artifacts
 *.apk
-*.aar
-*.jar
-*.dex
-*.so
-*.dylib
-*.dll
-
-# Android directories
-android/build/
-android/app/build/
+*.aab
+build/
+app/build/
 .gradle/
-local.properties
-
-# Windows build artifacts
-*.exe
-*.dll
-*.pdb
-*.ilk
-*.exp
-*.lib
-*.suo
-*.user
-*.userosscache
-*.sln.docstates
-
-# Windows directories
-windows/bin/
-windows/obj/
-windows/packages/
+target/
 
 # Dependencies
 node_modules/
 vendor/
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
 
 # Logs
 *.log
@@ -43,14 +25,25 @@ vendor/
 .env.local
 *.env.*
 
-# Editor/IDE files
-.vscode/
-.idea/
-*.swp
-*.swo
-*.tmp
-
-# OS generated files
+# OS files
 .DS_Store
 Thumbs.db
+
+# Windows
+*.exe
+*.dll
+*.pdb
+bin/
+obj/
+
+# Android
+*.keystore
+local.properties
+gradle-wrapper.properties
+!android/build.gradle
+!android/app/build.gradle
+
+# Temporary files
+*.tmp
+*~
 ```

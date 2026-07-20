@@ -10,6 +10,7 @@ namespace TinyClipboardSync
         private static ClipboardMonitor clipboardMonitor;
         private static Timer reconnectTimer;
         private const string AppName = "TinyClipboardSync";
+        private static bool isSettingClipboardFromNetwork = false;
 
         [STAThread]
         static void Main()
@@ -42,11 +43,26 @@ namespace TinyClipboardSync
             {
                 clipboardMonitor = new ClipboardMonitor((content) =>
                 {
-                    Thread.Sleep(50);
-                    NetworkClient.SendClipboard(content);
+                    if (!isSettingClipboardFromNetwork)
+                    {
+                        NetworkClient.SendClipboard(content);
+                    }
                 });
             }
             catch { }
+        }
+
+        public static void SetClipboardFromNetwork(string content)
+        {
+            isSettingClipboardFromNetwork = true;
+            try
+            {
+                Clipboard.SetText(content);
+            }
+            finally
+            {
+                isSettingClipboardFromNetwork = false;
+            }
         }
 
         private static void SetupReconnectTimer()

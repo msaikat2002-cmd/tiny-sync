@@ -121,10 +121,13 @@ namespace TinyClipboardSync
                         string json = Encoding.UTF8.GetString(buffer, 0, bytesRead);
                         ProcessMessage(json);
                     }
+                    else
+                    {
+                        break;
+                    }
                 }
                 catch
                 {
-                    Thread.Sleep(1000);
                     break;
                 }
             }
@@ -154,7 +157,7 @@ namespace TinyClipboardSync
                                 {
                                     string content = json.Substring(contentStart, contentEnd - contentStart);
                                     content = UnescapeJson(content);
-                                    SetClipboard(content);
+                                    Program.SetClipboardFromNetwork(content);
                                 }
                             }
                         }
@@ -171,15 +174,6 @@ namespace TinyClipboardSync
                     .Replace("\\t", "\t")
                     .Replace("\\\"", "\"")
                     .Replace("\\\\", "\\");
-        }
-
-        private static void SetClipboard(string text)
-        {
-            try
-            {
-                Clipboard.SetText(text);
-            }
-            catch { }
         }
 
         public static void SendClipboard(string text)
