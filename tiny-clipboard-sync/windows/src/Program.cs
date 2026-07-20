@@ -8,7 +8,7 @@ namespace TinyClipboardSync
     {
         private static Mutex mutex;
         private static ClipboardMonitor clipboardMonitor;
-        private static Timer reconnectTimer;
+        private static System.Windows.Forms.Timer reconnectTimer;
         private const string AppName = "TinyClipboardSync";
         private static bool isSettingClipboardFromNetwork = false;
 
@@ -67,7 +67,7 @@ namespace TinyClipboardSync
 
         private static void SetupReconnectTimer()
         {
-            reconnectTimer = new Timer();
+            reconnectTimer = new System.Windows.Forms.Timer();
             reconnectTimer.Interval = 5000;
             reconnectTimer.Tick += (sender, e) =>
             {

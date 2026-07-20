@@ -59,7 +59,6 @@ namespace TinyClipboardSync
             {
                 Disconnect();
                 client = new TcpClient();
-                client.ConnectTimeout = 3000;
                 IAsyncResult result = client.BeginConnect(serverIp, serverPort, null, null);
                 if (result.AsyncWaitHandle.WaitOne(3000))
                 {
