@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MediStore - Pharmacy Billing v0.1</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Header -->
+        <header class="header">
+            <h1>MediStore</h1>
+            <p class="subtitle">Pharmacy Billing v0.1</p>
+        </header>
+
+        <!-- Add Medicine Section (Collapsible) -->
+        <section class="section add-medicine-section">
+            <button class="btn btn-toggle" id="toggleAddMedicine" onclick="toggleAddMedicine()">
+                + Add New Medicine
+            </button>
+            <div class="add-medicine-form" id="addMedicineForm" style="display: none;">
+                <div class="form-group">
+                    <label for="newMedName">Medicine Name *</label>
+                    <input type="text" id="newMedName" placeholder="e.g., Paracetamol 500 mg" inputmode="text">
+                </div>
+                <div class="form-group">
+                    <label for="newMedPrice">Price (₹) *</label>
+                    <input type="number" id="newMedPrice" placeholder="25.00" step="0.01" min="0" inputmode="decimal">
+                </div>
+                <div class="form-group">
+                    <label for="newMedGeneric">Generic Name (optional)</label>
+                    <input type="text" id="newMedGeneric" placeholder="e.g., Paracetamol" inputmode="text">
+                </div>
+                <div class="form-group">
+                    <label for="newMedManufacturer">Manufacturer (optional)</label>
+                    <input type="text" id="newMedManufacturer" placeholder="e.g., Cipla" inputmode="text">
+                </div>
+                <button class="btn btn-primary btn-full" onclick="saveNewMedicine()">Save Medicine</button>
+            </div>
+        </section>
+
+        <!-- Search Medicine Section -->
+        <section class="section search-section">
+            <label for="medicineSearch">Search Medicine</label>
+            <input type="text" id="medicineSearch" placeholder="Type medicine name..." inputmode="text" oninput="searchMedicines()">
+            <div class="search-results" id="searchResults"></div>
+        </section>
+
+        <!-- Cart Section -->
+        <section class="section cart-section">
+            <h2>Cart</h2>
+            <div class="cart-table-wrapper">
+                <table class="cart-table" id="cartTable">
+                    <thead>
+                        <tr>
+                            <th>Medicine</th>
+                            <th>Qty</th>
+                            <th>Price</th>
+                            <th>Total</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody id="cartItems">
+                        <!-- Cart items will be inserted here -->
+                    </tbody>
+                </table>
+                <div class="empty-cart-message" id="emptyCartMessage">
+                    Cart is empty. Search and add medicines.
+                </div>
+            </div>
+
+            <!-- Cart Total -->
+            <div class="cart-total">
+                <span>TOTAL:</span>
+                <span id="cartTotal">₹0.00</span>
+            </div>
+
+            <!-- Cart Actions -->
+            <div class="cart-actions">
+                <button class="btn btn-danger" onclick="clearCart()">Clear</button>
+                <button class="btn btn-primary" onclick="saveBill()" id="saveBillBtn">Save Bill</button>
+                <button class="btn btn-success" onclick="printBill()" id="printBillBtn" disabled>Print Bill</button>
+            </div>
+        </section>
+
+        <!-- Recent Bills Section -->
+        <section class="section bills-section">
+            <h2>Recent Bills</h2>
+            <div class="bills-list" id="billsList">
+                <!-- Recent bills will be inserted here -->
+            </div>
+        </section>
+
+        <!-- Backup Section -->
+        <section class="section backup-section">
+            <button class="btn btn-secondary btn-full" onclick="backupDatabase()">Backup Database</button>
+            <div id="backupMessage" class="message"></div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <p>MediStore v0.1 - Local First Pharmacy Billing</p>
+        </footer>
+    </div>
+
+    <!-- Hidden Print Area -->
+    <div id="printArea" class="print-area"></div>
+
+    <script src="/static/app.js"></script>
+</body>
+</html>
